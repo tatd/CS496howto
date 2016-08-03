@@ -1,0 +1,282 @@
+{% extends "template/base.html" %}
+{% block title %}Pokeapi Guide{% endblock %}
+{% block content %}
+
+<h1>Making Another API Request</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Gathering Images</h2>
+            <p>The last, but very important piece to a simple Pokedex is an image of the Pokemon.</p>
+            <p>We will make an API request to a new URL: <code>http://pokeapi.co/api/v2/pokemon/25/</code>. Notice how this URL differs from our very first call by requesting from the v2 database instead of v1. The developers of Pokeapi started v2 to hold more information and are in the process of adding new information to v2. The v2 database holds information for 721 Pokemon.</p>
+            <p> Currently, the v2 database has more data than v1 when it comes to Pokemon images, so that is why we are making this request: </p>
+            <pre class="prettyprint" class="pre-scrollable">
+var req = new XMLHttpRequest();
+var URL3 = "http://pokeapi.co/api/v2/pokemon/25/";
+
+req.open("GET", URL3, true);
+
+req.addEventListener("load", function(){
+    var response = JSON.parse(req.responseText);
+    var response2 = JSON.stringify(response, null, "  ");
+
+    console.log(response);
+    console.log(response2); 
+    });
+
+req.send(null);
+            </pre>
+            <p>The responses from the v2 database hold a lot more information than the responses from the v1 database. Here's the part of the stringify'd reponse:</p>
+            <pre class="pre-scrollable">
+{
+  "id": 25,
+  "name": "pikachu",
+  "base_experience": 112,
+  "height": 4,
+  "is_default": true,
+  "order": 32,
+  "weight": 60,
+  "abilities": [
+    {
+      "is_hidden": true,
+      "slot": 3,
+      "ability": {
+        "name": "lightning-rod",
+        "url": "http://pokeapi.co/api/v2/ability/31/"
+      }
+    },
+    {
+      "is_hidden": false,
+      "slot": 1,
+      "ability": {
+        "name": "static",
+        "url": "http://pokeapi.co/api/v2/ability/9/"
+      }
+    }
+  ],
+  "forms": [
+    {
+      "name": "pikachu",
+      "url": "http://pokeapi.co/api/v2/pokemon-form/25/"
+    }
+  ],
+  "game_indices": [
+    {
+      "game_index": 25,
+      "version": {
+        "name": "white-2",
+        "url": "http://pokeapi.co/api/v2/version/22/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "black-2",
+        "url": "http://pokeapi.co/api/v2/version/21/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "white",
+        "url": "http://pokeapi.co/api/v2/version/18/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "black",
+        "url": "http://pokeapi.co/api/v2/version/17/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "soulsilver",
+        "url": "http://pokeapi.co/api/v2/version/16/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "heartgold",
+        "url": "http://pokeapi.co/api/v2/version/15/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "platinum",
+        "url": "http://pokeapi.co/api/v2/version/14/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "pearl",
+        "url": "http://pokeapi.co/api/v2/version/13/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "diamond",
+        "url": "http://pokeapi.co/api/v2/version/12/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "leafgreen",
+        "url": "http://pokeapi.co/api/v2/version/11/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "firered",
+        "url": "http://pokeapi.co/api/v2/version/10/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "emerald",
+        "url": "http://pokeapi.co/api/v2/version/9/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "sapphire",
+        "url": "http://pokeapi.co/api/v2/version/8/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "ruby",
+        "url": "http://pokeapi.co/api/v2/version/7/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "crystal",
+        "url": "http://pokeapi.co/api/v2/version/6/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "silver",
+        "url": "http://pokeapi.co/api/v2/version/5/"
+      }
+    },
+    {
+      "game_index": 25,
+      "version": {
+        "name": "gold",
+        "url": "http://pokeapi.co/api/v2/version/4/"
+      }
+    },
+    {
+      "game_index": 84,
+      "version": {
+        "name": "yellow",
+        "url": "http://pokeapi.co/api/v2/version/3/"
+      }
+    },
+    {
+      "game_index": 84,
+      "version": {
+        "name": "blue",
+        "url": "http://pokeapi.co/api/v2/version/2/"
+      }
+    },
+    {
+      "game_index": 84,
+      "version": {
+        "name": "red",
+        "url": "http://pokeapi.co/api/v2/version/1/"
+      }
+    }
+  ],
+...
+            </pre>
+            <p>We can see that we are still requesting information on Pokemon #25, which is Pikachu. You can read the <a href="http://pokeapi.co/docsv2/#pokemon" target="_blank">official documentation</a> to find out what each object means.</p>
+            <p>The reason I am only displaying part of the response is because when stringify'd to be readable, the response is thousands of lines long. Pokeapi's v2 database contains a lot of really technical game information that would not be useful in our Pokedex.</p>
+            <p>However, buried toward the bottom of the JSON object, we can find the data we are looking for:</p>
+            <pre>
+...
+"sprites": {
+    "back_female": "http://pokeapi.co/media/sprites/pokemon/back/female/25.png",
+    "back_shiny_female": "http://pokeapi.co/media/sprites/pokemon/back/shiny/female/25.png",
+    "back_default": "http://pokeapi.co/media/sprites/pokemon/back/25.png",
+    "front_female": "http://pokeapi.co/media/sprites/pokemon/female/25.png",
+    "front_shiny_female": "http://pokeapi.co/media/sprites/pokemon/shiny/female/25.png",
+    "back_shiny": "http://pokeapi.co/media/sprites/pokemon/back/shiny/25.png",
+    "front_default": "http://pokeapi.co/media/sprites/pokemon/25.png",
+    "front_shiny": "http://pokeapi.co/media/sprites/pokemon/shiny/25.png"
+  },
+...
+            </pre>
+            <p>The <code>sprites</code> object contains different keys that each hold values of a URL to an image. Here, we see there are eight different images, differentiated by male/female, front/back, and shiny/default.</p>
+            <p>Let's stick with the most basic image and go with the key <code>front_default</code> which has a string value of <code>"http://pokeapi.co/media/sprites/pokemon/25.png"</code>. </p>
+            <p>We can log this string to the console using <code>console.log(response.objectName.keyName);</code> and adding it to the <code>load</code> event:</p>
+            <pre class="prettyprint">
+var req = new XMLHttpRequest();
+var URL3 = "http://pokeapi.co/api/v2/pokemon/25/";
+
+req.open("GET", URL3, true);
+
+req.addEventListener("load", function(){
+    var response = JSON.parse(req.responseText);
+    var response2 = JSON.stringify(response, null, "  ");
+   
+/****************New Stuff***********************/
+    console.log(response.sprites.front_default);
+/************************************************/
+
+    //console.log(response);
+    //console.log(response2); 
+    });
+
+req.send(null);
+            </pre>
+            <p>The <code>response.sprites.front_default</code> call returns a string value of the URL to the image. This logged response is much more manageable: </p>
+            <pre>
+http://pokeapi.co/media/sprites/pokemon/25.png
+            </pre>
+            <p>Now that we have the link to the image, we can imbed it into an HTML document by linking <a href="http://pokeapi.co/media/sprites/pokemon/25.png" target="_blank">directly</a> to it or saving the file and linking to it locally.</p>
+            <p>The fun thing about this URL is that you can substitute the <code>25</code> for any number between 1 and 721 to see a different picture of a different Pokemon. This actually applies to most URLs which use the Pokemon ID number.</p>
+            <div class="bg-warning" class="row">
+                <div class="col-md-8"><img src="/img/25.png" alt="Pikachu, #25"</div>
+                    <div class="col-md-8">
+                        <div>#25</div>
+                        <div>Pikachu</div>
+                        <div>Type: Electric</div>
+                        <br>
+                        <div> It raises its tail to check its sur roundings. The tail is sometimes struck by light ning in this pose.</div>
+                    </div>
+                </div>
+            <div class="row"></div>
+        </div>
+            <h2>The End</h2>
+            <p>Thank you for reading through my Pokeapi guide. By gathering the data needed to build a simple Pokedex, we have only seen a tiny sliver of information this API contains.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <nav>
+  <ul class="pager">
+    <li><a href="page4">Previous</a></li>
+  </ul>
+</nav>
+</div>
+
+
+
+{% endblock %}

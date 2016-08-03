@@ -1,0 +1,48 @@
+{% extends "template/base.html" %}
+{% block title %}Pokeapi Guide{% endblock %}
+{% block content %}
+<h1>Making an API Request</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <p>Since Pokeapi does not require an API key, we can get started right away on making an API request with JavaScript. We will be using AJAX to get the data from Pokeapi.</p>
+            <p>Here is the code to get us started:</p>
+            <pre class="prettyprint">
+var req = new XMLHttpRequest();
+var URL = "http://pokeapi.co/api/v1/pokemon/25/";
+
+req.open("GET", URL, true);
+
+req.addEventListener("load", function(){
+    var response = JSON.parse(req.responseText);
+    var response2 = JSON.stringify(response, null, "  ");
+
+    console.log(response);
+    console.log(response2);
+});
+
+req.send(null);
+            </pre>
+            <p>In the first line, <code>new XMLHttpRequest();</code> allows us to make an HTTP request. We set <code>var URL</code> equal to the URL to which we want to make a request to, set as a string. In the URL, the last number (in our case <code>/25</code>) represents a unique Pokemon ID number. There are over 700 Pokemon, so we could really input any number between 1 and 718 depending on which Pokemon we want data for. This number can also be replaced with the Pokemon name.</p>
+            <p>The following line is the function that opens the request: <code>req.open("GET", URL, true);</code> Pokeapi only accepts GET requests, so the first parameter specifies what type of request it is. For the second parameter, we pass the URL of where we are making our request to. This makes it easier for us when we want to make a different request. All we have to do is change the <code>URL</code> variable above. The third parameter <code>true</code> indicates that this request is asynchronous.</p>
+            <p>Next, we use a <code>load</code> event to add a callback function, which is the actual function that does stuff to our response from the API (like accessing the data).</p>
+            <p>Pokeapi responds with JSON data. For us to read it, we use <code>JSON.parse(req.responseText);</code> This way, we can view our parsed response in the console log with tabs for each key and value. Optionally, you can also  use <code>JSON.stringify(response, null, "  ");</code> which converts the JSON response into one formatted string without tabs, so you can see all the data at once.</p> 
+            <p>Of course to see the response in the console we use <code>console.log(response);</code> and/or <code>console.log(response2);</code> depending on how we want to view our data. It is up to you whether you want to use one or both of these data-viewing methods. 
+            </p>
+            <p>In the last line, we <code>send</code> the request without any extra data. Next, let's see what our response looks like.</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <nav>
+  <ul class="pager">
+    <li><a href="/">Previous</a></li>
+    <li><a href="/page2">Next</a></li>
+  </ul>
+</nav>
+</div>
+
+{% endblock %}

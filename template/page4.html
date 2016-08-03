@@ -1,0 +1,172 @@
+{% extends "template/base.html" %}
+{% block title %}Pokeapi Guide{% endblock %}
+{% block content %}
+
+<h1>Making other API Requests</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Pokemon Description</h2>
+            <p>Earlier, I mentioned another item that would be useful for a Pokedex would be a description of the Pokemon. Going back to  the entire JSON object on the <a href="/page2" target="_blank">second page</a>, towards the top, you'll find this:</p>
+            <pre class="pre-scrollable">
+"descriptions": [
+    {
+      "name": "pikachu_gen_1",
+      "resource_uri": "/api/v1/description/382/"
+    },
+    {
+      "name": "pikachu_gen_1",
+      "resource_uri": "/api/v1/description/383/"
+    },
+    {
+      "name": "pikachu_gen_2",
+      "resource_uri": "/api/v1/description/384/"
+    },
+    {
+      "name": "pikachu_gen_1",
+      "resource_uri": "/api/v1/description/379/"
+    },
+    {
+      "name": "pikachu_gen_1",
+      "resource_uri": "/api/v1/description/380/"
+    },
+    {
+      "name": "pikachu_gen_2",
+      "resource_uri": "/api/v1/description/385/"
+    },
+    {
+      "name": "pikachu_gen_2",
+      "resource_uri": "/api/v1/description/386/"
+    },
+    {
+      "name": "pikachu_gen_3",
+      "resource_uri": "/api/v1/description/387/"
+    },
+    {
+      "name": "pikachu_gen_3",
+      "resource_uri": "/api/v1/description/388/"
+    },
+    {
+      "name": "pikachu_gen_3",
+      "resource_uri": "/api/v1/description/389/"
+    },
+    {
+      "name": "pikachu_gen_3",
+      "resource_uri": "/api/v1/description/390/"
+    },
+    {
+      "name": "pikachu_gen_3",
+      "resource_uri": "/api/v1/description/391/"
+    },
+    {
+      "name": "pikachu_gen_4",
+      "resource_uri": "/api/v1/description/392/"
+    },
+    {
+      "name": "pikachu_gen_4",
+      "resource_uri": "/api/v1/description/393/"
+    },
+    {
+      "name": "pikachu_gen_4",
+      "resource_uri": "/api/v1/description/394/"
+    },
+    {
+      "name": "pikachu_gen_5",
+      "resource_uri": "/api/v1/description/395/"
+    },
+    {
+      "name": "pikachu_gen_6",
+      "resource_uri": "/api/v1/description/396/"
+    },
+    {
+      "name": "pikachu_gen_6",
+      "resource_uri": "/api/v1/description/397/"
+    },
+    {
+      "name": "pikachu_gen_1",
+      "resource_uri": "/api/v1/description/381/"
+    }
+  ],
+            </pre>
+            <p>Again, we can see there is quite a lot of data here just from this one object. This <code>descriptions</code> object is an array of 19 different elements. Each element represents a different game that Pikachu is present in.</p>
+            <p>Each element has a <code>name</code> that describes what generation the description data is from (each generation can have multiple games), and a <code>resource_uri</code> that we can make a request to in order to more data about that description. We can see that this array does not actually contain the actual descriptions of Pikachu. We will have to make a new API request: </p>
+            <pre class="prettyprint">
+var req = new XMLHttpRequest();
+var URL2 = "http://pokeapi.co/api/v1/description/382/";
+
+req.open("GET", URL2, true);
+
+req.addEventListener("load", function(){
+    var response = JSON.parse(req.responseText);
+    var response2 = JSON.stringify(response, null, "  ");
+
+    console.log(response);
+    console.log(response2);     
+    });
+req.send(null);
+            </pre>
+            <p>This is exactly the same as our first API request, except we have a new URL. As we saw from above, there are 19 URLs we can choose from. Let's go old school and use the <code>resource_uri</code> of the first element in the <code>descriptions</code> array above: <code>"resource_uri": "/api/v1/description/382/"</code> which appears to be a description of Pikachu from Generation I.</p>
+            <p>Here is the parsed stringify'd JSON object response that we logged to the console:</p>
+            <pre>
+{
+  "created": "2013-12-24T17:14:43.357362",
+  "description": "It raises its tail to check its sur roundings. The tail is sometimes struck by light ning in this pose.",
+  "games": [
+    {
+      "name": "blue",
+      "resource_uri": "/api/v1/game/5/"
+    }
+  ],
+  "id": 382,
+  "modified": "2014-01-18T14:29:54.028223",
+  "name": "Pikachu_gen_1",
+  "pokemon": {
+    "name": "pikachu",
+    "resource_uri": "/api/v1/pokemon/25/"
+  },
+  "resource_uri": "/api/v1/description/382/"
+}
+            </pre>
+            <p>For desciptions of what each of these keys means, see the <a href="http://pokeapi.co/docsv1/#description" target="_blank">official documentation</a>. </p>
+            <p>What we really care about in this response is the <code>description</code> key: </p>
+            <pre>
+"description": "It raises its tail to check its sur roundings. The tail is sometimes struck by light ning in this pose."
+            </pre>
+            <p>Here, we finally see a string value that is an actual description of Pikachu. Using the techniques described earlier, we can access this data with <code>response.objectName</code>, which would be <code>response.description</code>. This will return our desired string value. We can view this by logging it to the console with <code>console.log(response.description)</code>. We will add this to our <code>load</code> event:</p>
+            <pre class="prettyprint">
+req.addEventListener("load", function(){
+    var response = JSON.parse(req.responseText);
+    var response2 = JSON.stringify(response, null, "  ");
+    
+/****************New Stuff******************/
+    console.log(response.description);
+/*******************************************/
+    
+    //console.log(response);
+    //console.log(response2);     
+    });
+            </pre>
+            <p>After adding the log function, this is what we see in the console:</p>
+            <pre>
+It raises its tail to check its sur roundings. The tail is sometimes struck by light ning in this pose.
+            </pre>
+            <p>Which is exactly what we expected. As like before, we can set some variable equal to <code>response.description</code> to display this string value in a linked HTML document.</p>
+            <p>Using the methods described on this page, we can make API requests to the other URLs above to get 18 other descriptions of Pikachu from different Pokemon video games.</p>
+            <p>Next, we will explore how to get images from Pokeapi.</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <nav>
+  <ul class="pager">
+    <li><a href="page3">Previous</a></li>
+    <li><a href="/page5">Next</a></li>
+  </ul>
+</nav>
+</div>
+
+
+{% endblock %}

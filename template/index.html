@@ -1,0 +1,35 @@
+{% extends "template/base.html" %}
+{% block title %}Pokeapi Guide{% endblock %}
+{% block content %}
+            <div class="row">
+    <div class="jumbotron">
+        <h1>Pokeapi Guide</h1>
+    </div>
+</div>
+<p>By Dennis Tat</p>
+<br>
+<div class="container">
+<div class="row">
+   <div class="col-md-8">
+    <p>This is a guide on how to use <a href="http://pokeapi.co/" target="_blank">Pokeapi</a>, a web API that contains data on the Pokemon video games. From Pokeapi, you can get information on over 700 Pokemon such as their names, descriptions, types, and even images of the sprites used in the video games. Using this information, you could build your own web-based Pokedex (which is basically an encyclopedia of Pokemon).</p>
+    <br>
+    <p>Pokeapi accepts HTTP requests via GET. This API does not require an API key, so anyone can immediately jump in and start making requests. However, there is a daily limit of 300 requests for each resource (so each specific URL can be called up to 300 times per day).</p>
+    <br>
+    <p>This guide will walk through how to start making requests to Pokeapi using JavaScript and go through some sample calls so that you can start constructing your own Pokedex. </p>
+    </div>
+</div>
+</div>
+<div class="row">
+    <nav>
+  <ul class="pager">
+    
+    <li><a href="/page1">Next</a></li>
+  </ul>
+</nav>
+</div>
+
+
+
+
+            
+{% endblock %}
