@@ -47,8 +47,11 @@ class Page5Handler(webapp2.RequestHandler):
         template = jinja_environment.get_template('template/page5.html')
         self.response.out.write(template.render(template_values))
 
-
-
+class AppHandler(webapp2.RequestHandler):
+    def get (self):
+        template_values = {}
+        template = jinja_environment.get_template('template/app.html')
+        self.response.out.write(template.render(template_values))
 
 class CreateHandler(webapp2.RequestHandler):
     def get(self):

@@ -9,5 +9,6 @@ app = webapp2.WSGIApplication([
     ('/page2', Page2Handler),
     ('/page3', Page3Handler),
     ('/page4', Page4Handler),
-    ('/page5', Page5Handler)
+    ('/page5', Page5Handler),
+    ('/app', AppHandler)
 ], debug=True)
