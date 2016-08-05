@@ -2,6 +2,19 @@
 {% block title %}Pokeapi Guide{% endblock %}
 {% block content %}
 
+<script type="text/javascript">
+// fancybox script
+$(document).ready(function(){
+  $("#thumb1").fancybox({
+    helpers: {
+      title: {
+        type: 'float'
+      }
+    }
+  });
+});
+</script>
+
 <h1>Displaying Data</h1>
 
 <div class="container">
@@ -83,9 +96,36 @@ function pokeSubmit(){
 
           <h2>Wrapping with PhoneGap/Cordova</h2>
           <p>Now that we have a finished browser-based app, the last thing to do is to wrap the HTML document with <a href="http://phonegap.com/" target="_blank">PhoneGap/Cordova</a>. View the documentation to see how to download all the correct SDKs and files and to set up the skeleton. A tool that I found useful was to use PhoneGap's <a href="https://github.com/phonegap/phonegap-template-hello-world">Hello World Template</a> to see how to wrap the HTML.</p>
+          <p>After looking at the template, you should see that you'll need to add these scripts:</p>
+          <pre class="prettyprint">
+&lt;script type="text/javascript" src="cordova.js">&lt;/script>
+
+&lt;script type="text/javascript">
+
+    document.addEventListener("deviceready", onDeviceReady, true);
+
+    function onDeviceReady() {
+        
+    }
+ &lt;/script>
+          </pre>
+          <p>PhoneGap uses these scripts to start the app on an Android device.</p>
+          <p>After implementing PhoneGap, it's time to test our app on an Android device. A way to do this is to run the app on an Android emulator. After setting up an <a href="https://developer.android.com/studio/run/managing-avds.html">Android Virtual Device</a> with <a href="https://developer.android.com/studio/index.html">Android Studio</a>, you can run the app with PhoneGap using the <a href="http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html">command-line interface.</a></p>
+          <p>First, run the Android Virtual Device to start the emulator. Then, from the www folder, open the command line. I'm using Git Bash to run the command:</p>
+          <pre>
+$ phonegap run android
+          </pre>
+          <p>This command will build the project and start the app on the emulator. Lastly, with PhoneGap, you can build a <a href="http://docs.phonegap.com/references/phonegap-cli/">release APK</a> which you can then <a href="https://developer.android.com/studio/publish/app-signing.html">sign</a>.</p>
+          <p>Here's a screenshot of the app running on an emulator (click to enlarge):</p>
+          <div>
+          <a id="thumb1" href="img/appemulator.png" title="App running on emulator" >
+            <img src="img/appemulator.png" height=100>
+          </a>
+          </div>
 
           <h2>The End</h2>
           <p>Thank you for reading through my Pokeapi guide. By gathering the data needed to build a simple Pokedex, we have only seen a tiny sliver of information this API contains.</p>
+          
     </div>
 </div>
 

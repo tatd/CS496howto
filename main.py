@@ -3,8 +3,6 @@ from views import *
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/create', CreateHandler),
-    ('/edit', EditHandler),
     ('/page0', Page0Handler),
     ('/page1', Page1Handler),
     ('/page2', Page2Handler),
