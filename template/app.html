@@ -3,8 +3,6 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="googlebot" content="noindex, nofollow">
 
     <meta name="viewport" content="width=device-width, target-densitydpi=medium-dpi" />
     <link rel="stylesheet" href="/css/jquery.mobile-1.4.5.min.css">
@@ -14,10 +12,6 @@
     margin :5px 0px 5px 0px !important;
     }
 
-    .error {
-    color:red;
-    }
-
     ​.ui-page .ui-content .ui-listview .ui-li-desc {
     white-space : normal;
     }​
@@ -25,13 +19,11 @@
 
     <script src="/js/jquery-3.1.0.min.js"></script> 
     <script src="/js/jquery-migrate-3.0.0.min.js"></script>
-
     <script src="/js/jquery.validate.min.js"></script>
     <script src="/js/additional-methods.min.js"></script>
-
     <script type="text/javascript" src="/js/jquery.mobile-1.4.5.min.js"></script>
 
-    <script type='text/javascript'>
+<script type='text/javascript'>
 
 function pokeSubmit(){
     var param = document.getElementById("pokeInput").value;
@@ -91,44 +83,7 @@ function pokeSubmit(){
     });
 }
 
-
-
-
-
-function resetForm() {
-    $('#locForm')[0].reset();
-    //$('#locform').validate().resetForm();
-    $("label.error").hide();
-  $(".error").removeClass("error");
-}
-
-// toast-like notification
-// https://gist.github.com/kamranzafar/3136584
-function toast(message) {
-    var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + message + '</h3></div>');
-
-    $toast.css({
-        display: 'block', 
-        background: '#fff',
-        opacity: 0.90, 
-        position: 'fixed',
-        padding: '7px',
-        'text-align': 'center',
-        width: '270px',
-        left: ($(window).width() - 284) / 2,
-        top: $(window).height() / 2 - 20
-    });
-
-    var removeToast = function(){
-        $(this).remove();
-    };
-
-    $toast.click(removeToast);
-
-    $toast.appendTo($.mobile.pageContainer).delay(2000);
-    $toast.fadeOut(400, removeToast);
-}
-    </script>
+</script>
 
 
   <title>CS496 by Dennis Tat</title>
@@ -161,11 +116,6 @@ function toast(message) {
     </div>
 </div>
 
-
-
 </body>
-
-    
-
 </html>
 

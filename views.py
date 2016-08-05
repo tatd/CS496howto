@@ -16,6 +16,12 @@ class MainHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('template/index.html')
         self.response.out.write(template.render(template_values))
 
+class Page0Handler(webapp2.RequestHandler):
+    def get (self):
+        template_values = {}
+        template = jinja_environment.get_template('template/page0.html')
+        self.response.out.write(template.render(template_values))
+
 class Page1Handler(webapp2.RequestHandler):
     def get (self):
         template_values = {}
@@ -45,6 +51,12 @@ class Page5Handler(webapp2.RequestHandler):
     def get (self):
         template_values = {}
         template = jinja_environment.get_template('template/page5.html')
+        self.response.out.write(template.render(template_values))
+
+class Page6Handler(webapp2.RequestHandler):
+    def get (self):
+        template_values = {}
+        template = jinja_environment.get_template('template/page6.html')
         self.response.out.write(template.render(template_values))
 
 class AppHandler(webapp2.RequestHandler):

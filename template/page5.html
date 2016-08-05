@@ -9,24 +9,53 @@
         <div class="col-md-8">
             <h2>Gathering Images</h2>
             <p>The last, but very important piece to a simple Pokedex is an image of the Pokemon.</p>
-            <p>We will make an API request to a new URL: <code>http://pokeapi.co/api/v2/pokemon/25/</code>. Notice how this URL differs from our very first call by requesting from the v2 database instead of v1. The developers of Pokeapi started v2 to hold more information and are in the process of adding new information to v2. The v2 database holds information for 721 Pokemon.</p>
+            <p>We will make an API request to a new URL: <code>http://pokeapi.co/api/v2/pokemon/25/</code>. Notice how this URL differs from our very first call by requesting from the v2 database instead of v1. The developers of Pokeapi started v2 to hold more information and are in the process of adding new information to v2. The v2 database holds information for more than 700 Pokemon.</p>
             <p> Currently, the v2 database has more data than v1 when it comes to Pokemon images, so that is why we are making this request: </p>
             <pre class="prettyprint" class="pre-scrollable">
-var req = new XMLHttpRequest();
-var URL3 = "http://pokeapi.co/api/v2/pokemon/25/";
+function pokeSubmit(){
+    var param = document.getElementById("pokeInput").value;
+    var pokeURL = "http://pokeapi.co/api/v1/pokemon/" + param;
 
-req.open("GET", URL3, true);
+    // new URL for 3rd GET request
+    var pokeURL2 = "http://pokeapi.co/api/v2/pokemon/" + param;
 
-req.addEventListener("load", function(){
-    var response = JSON.parse(req.responseText);
-    var response2 = JSON.stringify(response, null, "  ");
+    $.getJSON(pokeURL, function(data){
+        //console.log(data);
+        var pokeID = data.national_id;
+        var pokeName = data.name;
+        var pokeType1 = data.types[0].name;
+        if (data.types.length == 2) {
+            var pokeType2 = data.types[1].name;
+        }
+        else var pokeType2 = null;
+        var descriptionURI = "http://pokeapi.co" + data.descriptions[0].resource_uri;
+        var pokeDescription = "";
 
-    console.log(response);
-    console.log(response2); 
-    });
+        $.getJSON(descriptionURI, function(data2){
+            //console.log(data2);
+            pokeDescription = data2.description;
+        });
 
-req.send(null);
+        // 3rd GET request to get an image
+        $.getJSON(pokeURL2, function(data3){
+            console.log(data3);
+            console.log(JSON.stringify(data, null, "  "));
+            /*
+            console.log("Number: ", pokeID);
+            console.log("Name: ", pokeName);
+            console.log("Type 1: ", pokeType1);
+            console.log("Type 2: ", pokeType2);
+            console.log("Description URI: ", descriptionURI);
+            console.log("Description: ", pokeDescription);
+            */
+        });
+
+    });	// 2nd and 3rd GET requests are nested in success function of 1st GET request
+}
             </pre>
+
+            <p>Again, this new GET request is nested inside the success function of the first GET request so that get our responses at the same time.</p>
+
             <p>The responses from the v2 database hold a lot more information than the responses from the v1 database. Here's the part of the stringify'd reponse:</p>
             <pre class="pre-scrollable">
 {
@@ -224,47 +253,42 @@ req.send(null);
             </pre>
             <p>The <code>sprites</code> object contains different keys that each hold values of a URL to an image. Here, we see there are eight different images, differentiated by male/female, front/back, and shiny/default.</p>
             <p>Let's stick with the most basic image and go with the key <code>front_default</code> which has a string value of <code>"http://pokeapi.co/media/sprites/pokemon/25.png"</code>. </p>
-            <p>We can log this string to the console using <code>console.log(response.objectName.keyName);</code> and adding it to the <code>load</code> event:</p>
+            <p>We can access this string by setting a variable to <code>data3.objectName.keyName</code>, so for the image we want, we can set <code>var imageURI = data3.sprites.front_default</code>.</p>
             <pre class="prettyprint">
-var req = new XMLHttpRequest();
-var URL3 = "http://pokeapi.co/api/v2/pokemon/25/";
+function pokeSubmit(){
 
-req.open("GET", URL3, true);
+...
 
-req.addEventListener("load", function(){
-    var response = JSON.parse(req.responseText);
-    var response2 = JSON.stringify(response, null, "  ");
-   
-/****************New Stuff***********************/
-    console.log(response.sprites.front_default);
-/************************************************/
+        // 3rd GET request to get an image
+        $.getJSON(pokeURL2, function(data3){
+            //console.log(data3);
+            //console.log(JSON.stringify(data, null, "  "));
+            var imageURI = data3.sprites.front_default;
+            
+            console.log("Number: ", pokeID);
+            console.log("Name: ", pokeName);
+            console.log("Type 1: ", pokeType1);
+            console.log("Type 2: ", pokeType2);
+            console.log("Description URI: ", descriptionURI);
+            console.log("Description: ", pokeDescription);
+            console.log("Image URI: ", imageURI);
+        });
 
-    //console.log(response);
-    //console.log(response2); 
-    });
-
-req.send(null);
+    });	// 2nd and 3rd GET requests are nested in success function of 1st GET request
+}
             </pre>
-            <p>The <code>response.sprites.front_default</code> call returns a string value of the URL to the image. This logged response is much more manageable: </p>
+            <p>The <code>data3.sprites.front_default</code> call returns a string value of the URL to the image. This logged response is much more manageable: </p>
             <pre>
-http://pokeapi.co/media/sprites/pokemon/25.png
+Number: 25
+Name: Pikachu
+Type 1: electric
+Type 2: null
+Description URI: http://pokeapi.co/api/v1/description/382/
+Description: It raises its tail to check its sur roundings. The tail is sometimes struck by light ning in this pose.
+Image URI: http://pokeapi.co/media/sprites/pokemon/25.png
             </pre>
-            <p>Now that we have the link to the image, we can imbed it into an HTML document by linking <a href="http://pokeapi.co/media/sprites/pokemon/25.png" target="_blank">directly</a> to it or saving the file and linking to it locally.</p>
-            <p>The fun thing about this URL is that you can substitute the <code>25</code> for any number between 1 and 721 to see a different picture of a different Pokemon. This actually applies to most URLs which use the Pokemon ID number.</p>
-            <div class="bg-warning" class="row">
-                <div class="col-md-8"><img src="/img/25.png" alt="Pikachu, #25"</div>
-                    <div class="col-md-8">
-                        <div>#25</div>
-                        <div>Pikachu</div>
-                        <div>Type: Electric</div>
-                        <br>
-                        <div> It raises its tail to check its sur roundings. The tail is sometimes struck by light ning in this pose.</div>
-                    </div>
-                </div>
-            <div class="row"></div>
-        </div>
-            <h2>The End</h2>
-            <p>Thank you for reading through my Pokeapi guide. By gathering the data needed to build a simple Pokedex, we have only seen a tiny sliver of information this API contains.</p>
+            <p>Now that we have all the information we need, the next task is to display this information in the HTML.</p>
+            
     </div>
 </div>
 
@@ -273,6 +297,7 @@ http://pokeapi.co/media/sprites/pokemon/25.png
     <nav>
   <ul class="pager">
     <li><a href="page4">Previous</a></li>
+    <li><a href="page6">Next</a></li>
   </ul>
 </nav>
 </div>

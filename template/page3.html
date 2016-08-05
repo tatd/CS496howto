@@ -11,20 +11,16 @@
             <p>For a full list of what objects each API request returns, you can view the <a href="http://pokeapi.co/docsv1/#" target="_blank">official documentation</a>. Pokeapi contains a lot of video game data that we won't need for a basic Pokedex, so I will show you some sample requests you can make to gather the relevant information.</p>
             <p>As a reminder, here is the request that we are still working with:</p>
             <pre class="prettyprint">
-var req = new XMLHttpRequest();
-var URL = "http://pokeapi.co/api/v1/pokemon/25/";
+function pokeSubmit(){
+    var param = document.getElementById("pokeInput").value;
+    var pokeURL = "http://pokeapi.co/api/v1/pokemon/" + param;
 
-req.open("GET", URL, true);
+    $.getJSON(pokeURL, function(data){
+        //console.log(data);
+        //console.log(JSON.stringify(data, null, "  "));
 
-req.addEventListener("load", function(){
-    var response = JSON.parse(req.responseText);
-    //var response2 = JSON.stringify(response, null, "  ");
-
-    //console.log(response);
-    //console.log(response2);
-});
-
-req.send(null);
+    });
+}
             </pre>
             <p>I've commented out the lines of code we do not need at this moment because we do not need to view the entire JSON response right now.</p>
             <p>Some items that would be useful for a basic Pokedex would be  a Pokemon's number, name, type, a description, and an image.</p>
@@ -36,8 +32,8 @@ req.send(null);
 "national_id": 25,
 ...
             </pre>
-            <p>The key <code>national_id</code> holds the value <code>25</code>. This means that Pikachu is #25. In our callback function, we set <code>var response = JSON.parse(req.responseText);</code> So we can access the number as an object of <code>response</code>, so it would look like <code>response.objectName</code>. In this case, we would use <code>response.national_id</code>.</p>
-            <p>Similarly, the key <code>name</code> holds the value <code>"Pikachu"</code>. So the name of the Pokemon in question is Pikachu, which is what we expected. This can be accessed with <code>response.name</code>.</p> 
+            <p>The key <code>national_id</code> holds the value <code>25</code>. This means that Pikachu is #25. In our success function, we have the variable <code>data</code> which holds the entire response. We can access the number as an object of <code>data</code>, so it would look like <code>data.objectName</code>. In this case, we would use <code>data.national_id</code>.</p>
+            <p>Similarly, the key <code>name</code> holds the string value <code>"Pikachu"</code>. So the name of the Pokemon in question is Pikachu, which is what we expected. This can be accessed with <code>data.name</code>.</p> 
             <h2>Type</h2>
             <p>Also towards the bottom of the JSON object is an array named <code>types</code>:</p>
             <pre>
@@ -51,41 +47,44 @@ req.send(null);
 ...
             </pre>
             <p>This is an array because some Pokemon have up to two different types. In this case, Pikachu just has one type, which is electric. We can see the first object in this array has a key of <code>name</code> with value <code>"electric"</code>. The <code>resource_uri</code> contains a value that we can make an API request to in order to get data about the electric type.</p>
-            <p>To access the <code>"electric"</code> string value, we must use array index notation, which would be <code>response.objectName[index].key</code>. So in this case, we would use <code>response.types[0].name</code>. The first element in an array is index 0. If Pikachu had two types, then the second type name would be accessed by <code>response.types[1].name</code>, because the second element of an array has index of 1.</p>
+            <p>To access the <code>"electric"</code> string value, we must use array index notation, which would be <code>data.objectName[index].key</code>. So in this case, we would use <code>data.types[0].name</code>. The first element in an array is index 0. If Pikachu had two types, then the second type name would be accessed by <code>data.types[1].name</code>, because the second element of an array has index of 1.</p>
             <h2>Viewing the Desired Data</h2>
-            <p>Now that we have the code to access the data we want for our Pokedex, we want to display that data. An easy way to do this is to log the data to the console. To do this, we can add log functions to our <code>load</code> event, logging the data mentioned above: </p>
+            <p>Now that we have the code to access the data we want for our Pokedex, we want to display that data. An easy way to do this is to log the data to the console. To do this, we can add log functions to our success function, logging the data mentioned above: </p>
             <pre class="prettyprint">
-var req = new XMLHttpRequest();
-var URL = "http://pokeapi.co/api/v1/pokemon/25/";
+function pokeSubmit(){
+    var param = document.getElementById("pokeInput").value;
+    var pokeURL = "http://pokeapi.co/api/v1/pokemon/" + param;
 
-req.open("GET", URL, true);
-
-req.addEventListener("load", function(){
-    var response = JSON.parse(req.responseText);
+    $.getJSON(pokeURL, function(data){
+        //console.log(data);
+        //console.log(JSON.stringify(data, null, "  "));
 
 /*********** New Stuff ****************************/
-    console.log("Number: ", response.national_id);
-    console.log("Name: ", response.name);
-    console.log("Type: ", response.types[0].name);
-/**************************************************/
-    
-    //var response2 = JSON.stringify(response, null, "  ");
+        var pokeID = data.national_id;
+        var pokeName = data.name;
+        var pokeType1 = data.types[0].name;
+        if (data.types.length == 2) {
+            var pokeType2 = data.types[1].name;
+        }
+        else var pokeType2 = null;
 
-    //console.log(response);
-    //console.log(response2);
-});
-
-req.send(null);
+        console.log("Number: ", pokeID);
+        console.log("Name: ", pokeName);
+        console.log("Type 1: ", pokeType1);
+        console.log("Type 2: ", pokeType2);
+/*********** New Stuff ****************************/
+    });
             </pre>
+            <p>In the success function, we set variables equal to the data we want to extract from the JSON response. Then, we can log these variables to the console. I've included an <code>if...else</code> statement to handle Pokemon with two types. This statement checks if the <code>types[]</code> array has 1 or 2 elements, and then sets the variable accordingly.</p>
             <p>Here is the console log after making the above request: </p>
             <pre>
 Number: 25
 Name: Pikachu
-Type: electric
+Type 1: electric
+Type 2: null
             </pre>
             <p>We can see here that the above function calls returned the appropriate data. </p>
-            <p>This data can be displayed within a linked HTML document. For example, if you wanted to display the number <code>25</code>, in the HTML document, you can define a <code>&ltspan id="number"&gt&lt/span&gt</code>. Then, in your linked JavaScript document, you could display the number with <code> document.getElementById("number").textContent = response.national_id;</code>.</p>
-            <p>Next we will examine some data from the original JSON object that requires us to make more API requests to get the actual data we want.</p>
+            <p>Next we will examine some data from the original JSON object that requires us to make more API requests to get more of the data we want.</p>
         </div>
     </div>
 </div>

@@ -1,0 +1,51 @@
+{% extends "template/base.html" %}
+{% block title %}Pokeapi Guide{% endblock %}
+{% block content %}
+
+<h1>Starting with HTML</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+        <p>Before we connect to the API, let's start out with a basic form that we can work off of. In your index HTML document, place this between the <code>&lt;body></code> tags.</p>
+        <pre class="pre-scrollable prettyprint">
+&lt;!-- app search page-->
+&lt;div data-role="page" id="pokeSearch-page">
+    &lt;div data-role="header" data-theme="b">
+         &lt;h1>Pokeapi Demos&lt;/h1>
+    &lt;/div>
+    &lt;div data-role="main" class="ui-content">
+    &lt;form id="pokeForm" action="#pokeDetails-page" method="post">
+        &lt;div>
+        &lt;label for="pokeInput">Pokemon name or number:</label>
+        &lt;input type="text" name="pokeInput" id="pokeInput" placeholder="Name/Number" value="">
+        &lt;/div>
+        &lt;br>
+        &lt;div>
+        &lt;a class="ui-btn" onclick="pokeSubmit();">Search</a>
+        &lt;/div>
+    &lt;/form>
+    &lt;div>
+    &lt;ul data-role="listview" data-inset="true" id="pokeDetails">
+    &lt;/ul>
+    &lt;/div>
+    &lt;/div>
+&lt;/div>
+        </pre>
+
+        <p>This will be the code for our single-page application. The main thing here is a form to get the user input. Instead of a traditional submit button, we just have a normal button with an <code>onClick</code> function to handle the interaction with the API. Also, beneath the form, I've included a <code>div</code> that will display the data we recieve from the API. jQuery Mobile uses <code>ul data-role="listview"</code> as a list element with more features.</p>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <nav>
+  <ul class="pager">
+    <li><a href="/">Previous</a></li>
+    <li><a href="/page1">Next</a></li>
+  </ul>
+</nav>
+</div>
+
+{% endblock %}
