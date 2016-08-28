@@ -1,4 +1,4 @@
-# CS496howto  
+# PokeAPI How-To Guide
 ## Dennis Tat  
 
 Live page: [pokeapi-how.appspot.com/](http://pokeapi-how.appspot.com/)  
