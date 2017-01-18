@@ -34,7 +34,8 @@ function pokeSubmit(){
     var param = document.getElementById("pokeInput").value;
     var pokeURL = "http://pokeapi.co/api/v1/pokemon/" + param;
     var pokeURL2 = "http://pokeapi.co/api/v2/pokemon/" + param;
-    var imageURI = "http://pokeapi.co/media/sprites/pokemon/" + param + ".png";
+    //var imageURI = "http://pokeapi.co/media/sprites/pokemon/" + param + ".png";
+    var imageURI = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + param + ".png";
 
     $.ajax({
         beforeSend: function() { $.mobile.loading('show');},
